@@ -60,6 +60,16 @@ def getHashCode():
   return menuOption
 # end getHashCode
 
+# start - getPublishedHash
+def getPublishedHash():
+  clearScreen();
+
+  # get the string to hash
+  publishedHash = input("Input Published Hash: ")
+
+  return publishedHash
+# end - getPublishedHash
+
 # start - getInputString
 def getInputString():
   clearScreen();
@@ -133,13 +143,15 @@ def getFileContents(fileName):
 # end - getFileContents
 
 # start - displayResults
-def displayResults(inputVar, hashCodeMenu, hashString):
+def displayResults(inputVar, hashCodeMenu, calculatedHash, publishedHash):
   clearScreen();
 
   # display the results
-  print("Input    = ", inputVar)
-  print("Hashcode = ", hashCodeMenu, "->", hashCodeDesc)
-  print("Result   = ", hashString)
+  print("Input           = ", inputVar)
+  print("Hashcode        = ", hashCodeMenu, "->", hashCodeDesc)
+  print("Calculated Hash = ", calculatedHash)
+  print("Published Hash  = ", publishedHash)
+  print("Valid Hash      = ", calculatedHash==publishedHash)
   print("")
 
   # wait for the user to press <Return>
@@ -160,12 +172,15 @@ def calculateTheHashOfAString():
     # check if the user has selected to exit
     if hashCode != EXIT_HASH_CODE:
       
+      # get the published hash
+      publishedHash = getPublishedHash()
+
       # compute the hash of the string using the seleced code
       # note - string must be UTF encoded
-      hashString  = calculateHash(inputString.encode(UTF_CODE), hashCode)
+      calculatedHash  = calculateHash(inputString.encode(UTF_CODE), hashCode)
 
       # display the results of the hash
-      displayResults (inputString, hashCode, hashString)
+      displayResults (inputString, hashCode, calculatedHash, publishedHash)
 
     return
 # end - calculateTheHashOfAString
@@ -186,10 +201,13 @@ def calculateTheHashOfAFile():
       fileContents = getFileContents(fileName)
 
       # compute the hash of the string using the seleced code
-      hashString = calculateHash(fileContents, hashCode)
+      calculatedHash = calculateHash(fileContents, hashCode)
+
+      # get the published hash
+      publishedHash = getPublishedHash()
 
       # display the results of the hash
-      displayResults(fileName, hashCode, hashString)
+      displayResults(fileName, hashCode, calculatedHash, publishedHash)
 
   else:
     # file input by the user does not exist
